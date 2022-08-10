@@ -5,6 +5,8 @@ const port = 3000; //서버 포트
 const bodyParser = require("body-parser");
 const { User } = require("./models/User");
 
+const config = require("./config/key");
+
 //apllication/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -14,18 +16,15 @@ app.use(bodyParser.json());
 //DB연결
 const mongoose = require("mongoose");
 mongoose
-  .connect(
-    "mongodb+srv://baekg:100g@basic.froow67.mongodb.net/?retryWrites=true&w=majority",
-    {
-      useUnifiedTopology: true, //오류 제어
-    }
-  )
+  .connect(config.mongoURI, {
+    useUnifiedTopology: true, //오류 제어
+  })
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
 //페이지 출력 라우터
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World :)");
 });
 
 //회원 가입 Register
