@@ -32,6 +32,8 @@ app.post("/api/users/register", (req, res) => {
   //클라이언트에서 가져온 회원 가입 정보를 DB에 저장
   const user = new User(req.body);
 
+  //DB에 저장하기 전에 암호화 필요 -> User.js에 작성
+  
   user.save((err, userInfo) => {
     //DB에 저장
     if (err) return res.json({ success: false, err });
