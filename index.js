@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
 const { User } = require("./models/User");
+const { auth } = require("./middleware/auth");
 
 const config = require("./config/key");
 
@@ -82,6 +83,23 @@ app.post("/api/users/login", (req, res) => {
     });
   });
 });
+
+//인증 기능 Auth
+app.get("/api/users/auth", auth, (req, res) => {
+
+  //미들웨어 통과(authetication이 True일 때만)
+  res.status(200).json({
+    //인증된 유저 정보 접근
+    _id: req.user._id,
+    isAdmin: req.user.role===0? false : true, //일반유저:0, 관리자:0 외
+    isAuth: true,
+    email: req.user.email,
+    name: req.user.name,
+    lastname: req.user.lastname,
+    role: req.user.role,
+    image: req.user.image
+  })
+})
 
 //연결 확인
 app.listen(port, () => {
