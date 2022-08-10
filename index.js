@@ -3,6 +3,8 @@ const express = require("express");
 const app = express();
 const port = 3000; //서버 포트
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+
 const { User } = require("./models/User");
 
 const config = require("./config/key");
@@ -12,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //application/json type
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 //DB연결
 const mongoose = require("mongoose");
@@ -33,12 +36,49 @@ app.post("/api/users/register", (req, res) => {
   const user = new User(req.body);
 
   //DB에 저장하기 전에 암호화 필요 -> User.js에 작성
-  
+
   user.save((err, userInfo) => {
     //DB에 저장
     if (err) return res.json({ success: false, err });
     return res.status(200).json({
       success: true,
+    });
+  });
+});
+
+//로그인
+app.post("/api/users/login", (req, res) => {
+  
+  // 요청된 이메일 DB에서 찾기
+  User.findOne({ email: req.body.email }, (err, user) => {  if (!user) {
+      return res.json({
+        loginSuccess: false,
+        message: "입력하신 이메일 정보가 없습니다."
+      });
+    }
+
+    //요청 이메일이 있을 때, 비밀번호 확인
+    user.comparePassword(req.body.password, (err, isMatch) => {
+      if (!isMatch) {
+        return res.json({
+          loginSuccess: false,
+          message: "비밀번호가 일치하지 않습니다."
+        })
+      }
+
+      //비밀번호가 같으면 토큰 생성
+      user.generateToken((err, user) => {
+        if (err) return res.status(400).send(err);
+
+        //쿠키에 토큰 저장
+        //쿠키뿐 아니라 로컬 스토리지, 세션 등에 저장 가능
+        res.cookie("x_auth", user.token)
+        .status(200)
+        .json({
+          loginSuccess: true,
+          userId: user._id
+        });
+      });
     });
   });
 });
