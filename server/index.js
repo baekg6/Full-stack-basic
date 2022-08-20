@@ -1,7 +1,7 @@
 //module 연결
 const express = require("express");
 const app = express();
-const port = 3000; //서버 포트
+const port = 4000; //서버 포트
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
@@ -30,6 +30,11 @@ mongoose
 app.get("/", (req, res) => {
   res.send("Hello World :)");
 });
+
+//client-server
+app.get('/api/hello', (req, res)=>{
+  res.send('안녕하세요 :)')
+})
 
 //회원 가입 Register
 app.post("/api/users/register", (req, res) => {

@@ -12,17 +12,7 @@ import RegisterPage from "./components/views/RegisterPage/RegisterPage";
 export default function App() {
   return (
     <div>
-      <ul>Navigation
-        <li>
-          <Link to="/">Landing Page</Link>
-        </li>
-        <li>
-        <Link to="/login">Login Page</Link>
-        </li>
-        <li>
-        <Link to="/register">Register Page</Link>
-        </li>
-      </ul>
+      
       <hr/>
       <Routes>
         <Route path="/" element={<LandingPage />} />
