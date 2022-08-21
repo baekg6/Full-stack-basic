@@ -55,7 +55,7 @@ app.post("/api/users/register", (req, res) => {
 //로그인
 app.post("/api/users/login", (req, res) => {
   // 요청된 이메일 DB에서 찾기
-  User.findOne({ email: req.body.email }, (err, user) => {
+  User.findOne({ email: req.body.email }, (err, user) => { 
     if (!user) {
       return res.json({
         loginSuccess: false,
