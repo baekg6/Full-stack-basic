@@ -18,7 +18,7 @@ function LoginPage() {
     setEmail(event.currentTarget.value)
   }
 
-  const OnPasswordHandler = (event) => {
+  const onPasswordHandler = (event) => {
     setPassword(event.currentTarget.value)
   }
 
@@ -61,7 +61,7 @@ function LoginPage() {
       <label>Email</label>
       <input type="email" value={Email} onChange={onEmailHandler}/>
       <label>Password</label>
-      <input type="password" value={Password} onChange={OnPasswordHandler}/>
+      <input type="password" value={Password} onChange={onPasswordHandler}/>
       
       <br/>
       <button type="submit">
