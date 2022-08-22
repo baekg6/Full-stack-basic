@@ -50,7 +50,7 @@ function RegisterPage() {
     dispatch(registerUser(body))
     .then(response => {
       if(response.payload.success) {
-        navigate('/login') //root로 이동
+        navigate('/login') //login으로 이동
       } else{
         alert("Fail to sign up") 
       }
